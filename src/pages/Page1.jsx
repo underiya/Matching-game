@@ -7,7 +7,7 @@ const Page1 = () => {
   const navigate = useNavigate();
 
   const handleClick = () => {
-    navigate("/next");
+    navigate("/page2");
   };
   return (
     <>
