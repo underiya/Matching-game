@@ -10,11 +10,11 @@ const Page4 = () => {
   const navigate = useNavigate();
 
   const handleBtn = () => {
-    navigate("/page3");
+    navigate("/page5");
   };
   return (
     <>
-      <BackBtn/>
+      <BackBtn />
       <ProgressBar />
 
       <Buttons buttonTxt={"PLAY"} onClick={handleBtn} />

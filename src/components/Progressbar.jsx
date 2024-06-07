@@ -1,14 +1,10 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
-const ProgressBar = () => {
-  const [progressBarValue, setProgressBarValue] = useState(30); // Initial progress value (optional default to 0)
-
-  const handleProgressUpdate = () => {
-    // Update progress value (logic depends on your application)
-    const val = Math.min(progressBarValue + 10, 100);
-    console.log("clicked", val);
-    setProgressBarValue(val); // Increase by 10%, capped at 100
-  };
+const ProgressBar = ({ progress }) => {
+  const [progressBarValue, setProgressBarValue] = useState(progress || 30);
+  useEffect(() => {
+    setProgressBarValue(progress);
+  }, [progress]);
 
   return (
     <>
