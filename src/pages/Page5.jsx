@@ -1,7 +1,6 @@
 import { useEffect, useState } from "react";
 import Card from "../components/Card";
 import ProgressBar from "../components/Progressbar";
-import Buttons from "../components/Button";
 import BackBtn from "../components/BackBtn";
 import { useNavigate } from "react-router-dom";
 
@@ -28,7 +27,9 @@ const Page5 = () => {
     true,
     true,
   ]);
-
+  const [progress, setProgressBarValue] = useState(30);
+  const [isDisabled, setDisabled] = useState(false);
+  
   const updateVisibility = (index) => {
     setVisibility((prevArray) => {
       const newArray = [...prevArray]; // Create a shallow copy of the array
@@ -36,7 +37,6 @@ const Page5 = () => {
       return newArray; // Return the new array
     });
   };
-  const [progress, setProgressBarValue] = useState(30);
 
   const handleProgressUpdate = () => {
     const val = Math.min(progress + 12, 100);
@@ -47,6 +47,7 @@ const Page5 = () => {
     if (flippedCards.length < 2) {
       setFlippedCards((prev) => [...prev, index]);
     }
+    setDisabled(!isDisabled);
   };
 
   useEffect(() => {
@@ -58,7 +59,9 @@ const Page5 = () => {
       if (firstCharList1 === firstCharList2) {
         setResult(true);
         handleProgressUpdate();
-        updateVisibility(firstIndex);
+        setTimeout(() => {
+          updateVisibility(firstIndex);
+        }, 1000);
       } else {
         setResult(false);
       }
@@ -69,20 +72,29 @@ const Page5 = () => {
       }, 1000);
     }
   }, [flippedCards, list1, list2]);
-  console.log(flippedCards);
+
   useEffect(() => {
-    if (progress >= 100) {
-      navigate("/page6");
-    }
+    setTimeout(() => {
+      if (progress >= 100) {
+        navigate("/page6");
+      }
+    }, 1000);
   }, [progress]);
 
   return (
     <>
       <BackBtn />
       <ProgressBar progress={progress} />
-      {/* <Buttons onClick={handleBtn} buttonTxt={"NEXT"} /> */}
+
       <div className="flex justify-between px-16 pt-16">
-        <div className=" grid grid-cols-3 gap-2">
+        <div
+          className=" grid grid-cols-3 gap-2 "
+          style={{
+            cursor: isDisabled ? "not-allowed" : "pointer",
+
+            pointerEvents: isDisabled ? "none" : "auto",
+          }}
+        >
           {list2.map((s, i) => {
             return (
               <Card
@@ -98,7 +110,14 @@ const Page5 = () => {
             );
           })}
         </div>
-        <div className=" grid grid-cols-3 gap-2">
+        <div
+          className=" grid grid-cols-3 gap-2"
+          style={{
+            cursor: !isDisabled ? "not-allowed" : "pointer",
+
+            pointerEvents: !isDisabled ? "none" : "auto",
+          }}
+        >
           {list1.map((s, i) => {
             return (
               <Card
